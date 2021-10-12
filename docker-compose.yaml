@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+    notebook:
+        image: jupyter/scipy-notebook:latest
+        command: |
+            bash -c "
+                pip install -r /requirements.txt &&
+                jupyter lab --NotebookApp.token=''
+            "
+        ports:
+            - ${NOTEBOOK_PORT:-8090}:8888
+        working_dir: /workdir
+        volumes:
+            - ./:/workdir
+            - ./requirements.txt:/requirements.txt
+        environment:
+            PYTHONPATH: /workdir
